@@ -1,0 +1,8 @@
+.venv
+dist/
+__pycache__
+*.cast
+*.swp
+*.egg-info
+*.pyc
+*_cache/

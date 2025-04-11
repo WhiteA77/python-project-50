@@ -3,11 +3,32 @@ import json
 from pathlib import Path
 
 def parse_file(file_path):
-    """Чтение и парсинг JSON-файла"""
     with open(file_path) as f:
         return json.load(f)
 
-def generate_diff():
+def build_diff(data1, data2):
+    keys = sorted(set(data1.keys()) | set(data2.keys()))
+    diff = []
+    
+    for key in keys:
+        if key not in data2:
+            diff.append(f"  - {key}: {data1[key]}")
+        elif key not in data1:
+            diff.append(f"  + {key}: {data2[key]}")
+        elif data1[key] == data2[key]:
+            diff.append(f"    {key}: {data1[key]}")
+        else:
+            diff.append(f"  - {key}: {data1[key]}")
+            diff.append(f"  + {key}: {data2[key]}")
+    
+    return "{\n" + "\n".join(diff) + "\n}"
+
+def generate_diff(file_path1, file_path2):
+    data1 = parse_file(file_path1)
+    data2 = parse_file(file_path2)
+    return build_diff(data1, data2)
+
+def main():
     parser = argparse.ArgumentParser(
         prog='gendiff',
         description='Compares two configuration files and shows a difference.',
@@ -31,26 +52,8 @@ def generate_diff():
         help='set format of output'
     )
     
-    return parser
-
-def main():
-    parser = generate_diff()
     args = parser.parse_args()
-    
-    # Получаем абсолютные пути к файлам
-    file1 = Path(args.first_file).absolute()
-    file2 = Path(args.second_file).absolute()
-    
-    # Парсим файлы
-    data1 = parse_file(file1)
-    data2 = parse_file(file2)
-    
-    # Выводим информацию для проверки
-    print(f"File 1 ({file1}):")
-    print(data1)
-    print(f"\nFile 2 ({file2}):")
-    print(data2)
-    print(f"\nOutput format: {args.format or 'plain'}")
+    print(generate_diff(args.first_file, args.second_file))
 
 if __name__ == '__main__':
     main()

@@ -6,6 +6,19 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []
 
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0",
+    "pytest-cov>=3.0",
+    "ruff>=0.1.0",
+    "sonarqube>=1.6"
+]
+
+[tool.pytest.ini_options]
+python_files = "test_*.py"
+testpaths = ["tests"]
+addopts = "-v --cov=hexlet_code --cov-report=term-missing"
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"

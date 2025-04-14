@@ -1,10 +1,11 @@
 import argparse
 import json
-from pathlib import Path
+
 
 def parse_file(file_path):
     with open(file_path) as f:
         return json.load(f)
+
 
 def build_diff(data1, data2):
     keys = sorted(set(data1.keys()) | set(data2.keys()))
@@ -12,21 +13,28 @@ def build_diff(data1, data2):
     
     for key in keys:
         if key not in data2:
-            diff.append(f"  - {key}: {data1[key]}")
+            value = str(data1[key]).lower() if isinstance(data1[key], bool) else data1[key]
+            diff.append(f"  - {key}: {value}")
         elif key not in data1:
-            diff.append(f"  + {key}: {data2[key]}")
+            value = str(data2[key]).lower() if isinstance(data2[key], bool) else data2[key]
+            diff.append(f"  + {key}: {value}")
         elif data1[key] == data2[key]:
-            diff.append(f"    {key}: {data1[key]}")
+            value = str(data1[key]).lower() if isinstance(data1[key], bool) else data1[key]
+            diff.append(f"    {key}: {value}")
         else:
-            diff.append(f"  - {key}: {data1[key]}")
-            diff.append(f"  + {key}: {data2[key]}")
+            value1 = str(data1[key]).lower() if isinstance(data1[key], bool) else data1[key]
+            value2 = str(data2[key]).lower() if isinstance(data2[key], bool) else data2[key]
+            diff.append(f"  - {key}: {value1}")
+            diff.append(f"  + {key}: {value2}")
     
     return "{\n" + "\n".join(diff) + "\n}"
+
 
 def generate_diff(file_path1, file_path2):
     data1 = parse_file(file_path1)
     data2 = parse_file(file_path2)
     return build_diff(data1, data2)
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -54,6 +62,7 @@ def main():
     
     args = parser.parse_args()
     print(generate_diff(args.first_file, args.second_file))
+
 
 if __name__ == '__main__':
     main()

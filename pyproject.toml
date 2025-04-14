@@ -1,3 +1,7 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "hexlet-code"
 version = "0.1.0"
@@ -9,22 +13,17 @@ dependencies = []
 [project.optional-dependencies]
 test = [
     "pytest>=7.0",
-    "pytest-cov>=3.0",
-    "ruff>=0.1.0",
-    "sonarqube>=1.6"
+    "pytest-cov>=4.0",
+    "ruff>=0.1.0"
 ]
 
-[tool.pytest.ini_options]
-python_files = "test_*.py"
-testpaths = ["tests"]
-addopts = "-v --cov=hexlet_code --cov-report=term-missing"
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+[project.scripts]
+gendiff = "hexlet_code.scripts.gendiff:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["hexlet_code"]
 
-[project.scripts]
-gendiff = "hexlet_code.scripts.gendiff:main"
+[tool.pytest.ini_options]
+python_files = "test_*.py"
+testpaths = ["tests"]
+addopts = "-v"

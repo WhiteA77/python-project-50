@@ -1,8 +1,11 @@
-.PHONY: test lint
+.PHONY: test lint coverage
 
 test:
-	python -m pytest --cov=hexlet_code --cov-report=term-missing -v
+	pytest tests/ -v
 
 lint:
 	ruff check hexlet_code tests
 	ruff format --check hexlet_code tests
+
+coverage:
+	pytest --cov=hexlet_code --cov-report=term-missing tests/ -v

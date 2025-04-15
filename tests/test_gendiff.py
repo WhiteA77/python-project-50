@@ -18,3 +18,10 @@ def test_gendiff(file1, file2):
         expected = f.read().strip()
     result = generate_diff(get_fixture_path(file1), get_fixture_path(file2))
     assert result == expected
+
+    def test_nested_structure():
+        file1 = get_fixture_path('nested_file1.json')
+        file2 = get_fixture_path('nested_file2.json')
+        with open(get_fixture_path('nested_expected.txt')) as f:
+            expected = f.read()
+        assert generate_diff(file1, file2) == expected

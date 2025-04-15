@@ -1,4 +1,4 @@
-from hexlet_code.scripts.gendiff import generate_diff, main
+from scripts.gendiff import generate_diff, main
 
 # Делает `generate_diff` доступным как импортируемую функцию
 __all__ = ["generate_diff"]

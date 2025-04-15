@@ -1,13 +1,14 @@
 import json
-import yaml
 from pathlib import Path
+
+import yaml
 
 
 def parse_file(file_path):
     path = Path(file_path)
-    if path.suffix in ('.yaml', '.yml'):
+    if path.suffix in (".yaml", ".yml"):
         return parse_yaml(file_path)
-    elif path.suffix == '.json':
+    elif path.suffix == ".json":
         return parse_json(file_path)
     raise ValueError(f"Unsupported file format: {path.suffix}")
 

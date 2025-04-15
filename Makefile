@@ -1,7 +1,7 @@
 .PHONY: test lint coverage
 
 test:
-	pytest tests/ -v
+	pytest --cov=hexlet_code tests/ -v
 
 lint:
 	ruff check hexlet_code tests

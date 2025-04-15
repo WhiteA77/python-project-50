@@ -1,5 +1,8 @@
 .PHONY: test lint coverage
 
+install:
+	uv pip install -e .[test]
+
 test:
 	pytest --cov=hexlet_code tests/ -v
 

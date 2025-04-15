@@ -6,7 +6,7 @@ install:
 test:
 	pytest --cov=hexlet_code tests/ -v
 
-lint:
+check:
 	ruff check hexlet_code tests
 	ruff format --check hexlet_code tests
 

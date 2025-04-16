@@ -1,8 +1,8 @@
-.venv
-dist/
-__pycache__
-*.cast
-*.swp
 *.egg-info
+__pycache__
+dist/
 *.pyc
+.venv
+.coverage
+coverage.xml
 *_cache/

@@ -1,24 +1,26 @@
-.PHONY: test lint coverage
-
-setup:
-	export PYTHONPATH=. && uv pip install --system -e .[test,dev]
 
 install:
-	uv pip install --system -e .[test,dev]
+	uv sync
+
+run:
+	uv run gendiff -h
 
 test:
-	pytest --cov=hexlet_code tests/ -v
-
-check:
-	ruff check hexlet_code tests
-	ruff format --check hexlet_code tests
-
-coverage:
-	pytest --cov=hexlet_code --cov-report=term-missing tests/ -v
+	uv run pytest
 
 test-coverage:
-	pytest --cov=hexlet_code --cov-report=xml
+	uv run pytest --cov=hexlet_python_package --cov-report xml
 
-debug:
-	ls -l gendiff.py && python3 -c "import gendiff; print('OK')"
+lint:
+	uv run ruff check hexlet_code tests --fix
+	uv run ruff format --check hexlet_code tests
 
+check: test lint
+
+build:
+	uv build
+
+package-install:
+	uv tool install dist/*.whl
+
+.PHONY: install run test test-coverage lint check build package-install

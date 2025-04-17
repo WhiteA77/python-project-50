@@ -19,28 +19,26 @@ def format_value(value, depth):
 
 def format_stylish(diff, depth=0):
     lines = []
-    indent = " " * (depth + 2)
+    indent = " " * depth
 
     for key, node in diff.items():
-        value_depth = depth + 4
-
         if node["type"] == "nested":
-            children = format_stylish(node["children"], value_depth)
+            children = format_stylish(node["children"], depth + 2)
             lines.append(f"{indent}  {key}: {children}")
         elif node["type"] == "added":
-            value = format_value(node["value"], value_depth)
+            value = format_value(node["value"], depth)
             lines.append(f"{indent}+ {key}: {value}")
         elif node["type"] == "removed":
-            value = format_value(node["value"], value_depth)
+            value = format_value(node["value"], depth)
             lines.append(f"{indent}- {key}: {value}")
         elif node["type"] == "changed":
-            old_val = format_value(node["old_value"], value_depth)
-            new_val = format_value(node["new_value"], value_depth)
+            old_val = format_value(node["old_value"], depth)
+            new_val = format_value(node["new_value"], depth)
             lines.append(f"{indent}- {key}: {old_val}")
             lines.append(f"{indent}+ {key}: {new_val}")
         else:
-            value = format_value(node["value"], value_depth)
+            value = format_value(node["value"], depth)
             lines.append(f"{indent}  {key}: {value}")
 
-    result = ["{"] + lines + [" " * depth + "}"]
+    result = ["{"] + lines + [indent + "}"]
     return "\n".join(result)

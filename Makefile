@@ -12,8 +12,8 @@ test-coverage:
 	uv run pytest --cov=hexlet_python_package --cov-report xml
 
 lint:
-	uv run ruff check hexlet_code tests --fix
-	uv run ruff format --check hexlet_code tests
+	uv run ruff check gendiff tests --fix
+	uv run ruff format --check gendiff tests
 
 check: test lint
 

@@ -1,10 +1,15 @@
+INDENT = 4  # Константа для размера отступа
+
+
 def format_value(value, depth):
     if isinstance(value, dict):
-        indent = ' ' * (depth + 4)
+        current_indent = ' ' * (depth + 1) * INDENT
+        closing_indent = ' ' * depth * INDENT
         lines = []
         for key, val in value.items():
-            lines.append(f"{indent}{key}: {format_value(val, depth + 4)}")
-        closing_indent = ' ' * (depth + 2)
+            lines.append(
+                f"{current_indent}{key}: {format_value(val, depth + 1)}"
+            )
         return '{\n' + '\n'.join(lines) + '\n' + closing_indent + '}'
     
     if isinstance(value, bool):
@@ -16,29 +21,35 @@ def format_value(value, depth):
 
 def format_stylish(diff, depth=0):
     lines = []
-    base_indent = ' ' * (depth + 2)
+    base_indent = ' ' * depth * INDENT
+    value_indent = ' ' * (depth + 1) * INDENT
     
     for key, node in sorted(diff.items()):
         node_type = node['type']
-        value_indent = depth + 4
         
         if node_type == 'nested':
-            children = format_stylish(node['children'], depth + 4)
-            lines.append(f"{base_indent}  {key}: {children}")
+            children = format_stylish(node['children'], depth + 1)
+            lines.append(
+                f"{value_indent}{key}: {{\n{children}\n{value_indent}}}"
+            )
         elif node_type == 'added':
-            value = format_value(node['value'], value_indent)
-            lines.append(f"{base_indent}+ {key}: {value}")
+            value = format_value(node['value'], depth + 1)
+            lines.append(f"{base_indent}{' ' * (INDENT - 2)}+ {key}: {value}")
         elif node_type == 'removed':
-            value = format_value(node['value'], value_indent)
-            lines.append(f"{base_indent}- {key}: {value}")
+            value = format_value(node['value'], depth + 1)
+            lines.append(f"{base_indent}{' ' * (INDENT - 2)}- {key}: {value}")
         elif node_type == 'changed':
-            old_value = format_value(node['old_value'], value_indent)
-            new_value = format_value(node['new_value'], value_indent)
-            lines.append(f"{base_indent}- {key}: {old_value}")
-            lines.append(f"{base_indent}+ {key}: {new_value}")
+            old_value = format_value(node['old_value'], depth + 1)
+            new_value = format_value(node['new_value'], depth + 1)
+            lines.append(
+                f"{base_indent}{' ' * (INDENT - 2)}- {key}: {old_value}"
+            )
+            lines.append(
+                f"{base_indent}{' ' * (INDENT - 2)}+ {key}: {new_value}"
+            )
         else:  # unchanged
-            value = format_value(node['value'], value_indent)
-            lines.append(f"{base_indent}  {key}: {value}")
+            value = format_value(node['value'], depth + 1)
+            lines.append(f"{value_indent}{key}: {value}")
     
-    result = ['{'] + lines + [' ' * depth + '}']
-    return '\n'.join(result)
+    result = '{\n' + '\n'.join(lines) + '\n' + ' ' * depth * INDENT + '}'
+    return result

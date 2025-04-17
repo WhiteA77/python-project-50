@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from hexlet_code import generate_diff
+from gendiff import generate_diff
 
 
 def get_fixture_path(filename):

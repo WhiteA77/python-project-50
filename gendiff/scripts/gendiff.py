@@ -1,10 +1,10 @@
 from argparse import ArgumentParser
 
-from hexlet_code.diff_builder import build_diff
-from hexlet_code.formatters.json import format_json_output
-from hexlet_code.formatters.plain import format_plain
-from hexlet_code.formatters.stylish import format_stylish
-from hexlet_code.parsers import parse_file
+from gendiff.diff_builder import build_diff
+from gendiff.formatters.json import format_json_output
+from gendiff.formatters.plain import format_plain
+from gendiff.formatters.stylish import format_stylish
+from gendiff.parsers import parse_file
 
 FORMATTERS = {
     "stylish": format_stylish,

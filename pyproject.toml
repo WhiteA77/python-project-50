@@ -22,10 +22,10 @@ dev-dependencies = [
 ]
 
 [project.scripts]
-gendiff = "hexlet_code.scripts.gendiff:main"
+gendiff = "gendiff.scripts.gendiff:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["hexlet_code"]
+packages = ["gendiff"]
 
 [tool.pytest.ini_options]
 addopts = "-v"

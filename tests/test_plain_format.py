@@ -1,4 +1,4 @@
-from hexlet_code import generate_diff
+from gendiff import generate_diff
 
 
 def test_plain_format():

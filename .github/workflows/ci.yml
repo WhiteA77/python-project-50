@@ -30,15 +30,18 @@ jobs:
       - name: Run tests with coverage
         run: make test-coverage
 
+      - name: Generate coverage report
+        run: coverage xml -o coverage.xml
+
       - name: Upload coverage to SonarCloud
-        uses: SonarSource/sonarqube-scan-action@v5
+        uses: SonarSource/sonarcloud-github-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=hexlet-boilerplates_python-package
-            -Dsonar.organization=hexlet-boilerplates
+            -Dsonar.projectKey=WhiteA77_python-project-50
+            -Dsonar.organization=WhiteA77
             -Dsonar.python.coverage.reportPaths=coverage.xml
-            -Dsonar.sources=hexlet_code
+            -Dsonar.sources=gendiff
             -Dsonar.tests=tests

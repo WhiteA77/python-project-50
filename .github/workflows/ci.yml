@@ -30,9 +30,6 @@ jobs:
       - name: Run tests with coverage
         run: make test-coverage
 
-      - name: Generate coverage report
-        run: coverage xml -o coverage.xml
-
       - name: Upload coverage to SonarCloud
         uses: SonarSource/sonarcloud-github-action@v1
         env:

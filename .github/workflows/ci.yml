@@ -37,7 +37,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=whitea77_python-project-50
+            -Dsonar.projectKey=WhiteA77_python-project-50
             -Dsonar.organization=whitea77
             -Dsonar.python.coverage.reportPaths=coverage.xml
             -Dsonar.sources=gendiff

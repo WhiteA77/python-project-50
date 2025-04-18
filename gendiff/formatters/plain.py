@@ -1,10 +1,10 @@
 def format_value(value):
     if isinstance(value, dict):
-        return '[complex value]'
+        return "[complex value]"
+    if value is None:
+        return "null"
     if isinstance(value, bool):
         return str(value).lower()
-    if value is None:
-        return 'null'
     if isinstance(value, str):
         return f"'{value}'"
     return str(value)
